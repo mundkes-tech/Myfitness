@@ -10,7 +10,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   checkIsLogin() async {
-    Future.delayed(Duration(seconds: 5), () async {
+    Future.delayed(Duration(seconds: 7), () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var email = prefs.getString('email');
       if (email != null) {
@@ -36,19 +36,25 @@ class _SplashScreenState extends State<SplashScreen> {
       child: Center(
           child: Column(
         children: [
-          Padding(padding: EdgeInsets.only(top: 200)),
+          Padding(padding: EdgeInsets.only(top: 180)),
           Image.asset(
             "asset/weightlifting.gif",
-            height: 300,
-            width: 300,
+            height: 320,
+            width: 320,
           ),
           SizedBox(height: 20),
           Text(
             "MyFitness",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
           ),
+          SizedBox(height: 10),
+          Text(
+            "Go Fit",
+            style: TextStyle(fontSize: 20),
+          ),
         ],
       )),
     ));
   }
 }
+

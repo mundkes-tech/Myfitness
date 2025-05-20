@@ -18,23 +18,30 @@ class _ForgotpassScreenState extends State<ForgotpassScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueGrey,
         appBar: AppBar(
           title: Text(
             "Forgot Password",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          backgroundColor: Colors.cyan,
+          backgroundColor: Colors.white60,
         ),
         body: SafeArea(
             child: SingleChildScrollView(
           padding: EdgeInsets.all(16),
           child: Padding(
-            padding: const EdgeInsets.only(top: 130),
+            padding: const EdgeInsets.only(top: 150),
             child: Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xFFFFFFCC),
+                    Color(0xFF006666)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
                 borderRadius: BorderRadius.circular(12),
-                color: Colors.white,
                 boxShadow: [
                   BoxShadow(
                       color: Colors.grey.withOpacity(0.3),
@@ -48,7 +55,7 @@ class _ForgotpassScreenState extends State<ForgotpassScreen> {
                   child: Column(
                     children: [
                       Text("Reset Password",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
-                      SizedBox(height: 25),
+                      SizedBox(height: 40),
                       TextFormField(
                         readOnly: showPasswordFields,
                         controller: emailController,
@@ -66,13 +73,15 @@ class _ForgotpassScreenState extends State<ForgotpassScreen> {
                         },
                         decoration: InputDecoration(
                           isDense: true,
-                          labelText: "Email",
+                          labelText: "Enter Your Email",
+                          labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                          prefixIcon: Icon(Icons.email, color: Colors.black),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
                       ),
-                      SizedBox(height: 30),
+                      SizedBox(height: 40),
                       TextFormField(
                         controller: newpassController,
                         obscureText: isPassVisible,
@@ -88,6 +97,8 @@ class _ForgotpassScreenState extends State<ForgotpassScreen> {
                         decoration: InputDecoration(
                           isDense: true,
                           labelText: "Enter New Password",
+                          labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                          prefixIcon: Icon(Icons.lock, color: Colors.black),
                           suffixIcon: GestureDetector(
                               onTap: () {
                                 setState(() {

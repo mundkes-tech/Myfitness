@@ -78,23 +78,22 @@ class _TimerScreenState extends State<TimerScreen> {
       return Scaffold(
         backgroundColor: Colors.blue.shade900,
         body: SafeArea(
-
           child: Padding(
             padding: EdgeInsets.all(16),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Center(
-                  child: Text(
-                    "StopWatch",style: TextStyle(color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold),
-                  )
-                ),
-                SizedBox(
-                  height: 20,
-                ),
+                // Center(
+                //   child: Text(
+                //     "StopWatch",style: TextStyle(color: Colors.white,
+                //   fontSize: 28,
+                //   fontWeight: FontWeight.bold),
+                //   )
+                // ),
+                // SizedBox(
+                //   height: 20,
+                // ),
                 Center(
                   child: Text("$digitHours:$digitMinutes:$digitSeconds",style: TextStyle(
                     color: Colors.white,
