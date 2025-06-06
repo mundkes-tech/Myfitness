@@ -58,10 +58,6 @@ class _myplanScreenState extends State<myplanScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("My Plans",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white)),
-      //   backgroundColor: Colors.blueAccent,
-      // ),
         body: SafeArea(
         child: Container(
           child: isLoading == true

@@ -84,16 +84,6 @@ class _TimerScreenState extends State<TimerScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Center(
-                //   child: Text(
-                //     "StopWatch",style: TextStyle(color: Colors.white,
-                //   fontSize: 28,
-                //   fontWeight: FontWeight.bold),
-                //   )
-                // ),
-                // SizedBox(
-                //   height: 20,
-                // ),
                 Center(
                   child: Text("$digitHours:$digitMinutes:$digitSeconds",style: TextStyle(
                     color: Colors.white,

@@ -9,14 +9,6 @@ class _dailyroutineState extends State<dailyroutine> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(
-        //   backgroundColor: Colors.blue,
-        //   automaticallyImplyLeading: false,
-        //   title: Text(
-        //     "Daily Schedule",
-        //     style: TextStyle(color: Colors.white),
-        //   ),
-        // ),
         body: SingleChildScrollView(
         child: Column(
             children: [
