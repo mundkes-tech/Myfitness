@@ -3,6 +3,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:another_carousel_pro/another_carousel_pro.dart';
+import 'package:myfitness/DietPlanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Chest_workouts.dart';
 import 'Back_workouts.dart';
@@ -105,6 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               _buildMoreItem(Icons.add_box_outlined, "Add Plan", addplanScreen()),
+              _buildMoreItem(Icons.food_bank_outlined, "Diet Planner", DietPlannerScreen()),
               _buildMoreItem(Icons.logout, "Logout", null, logout),
             ],
           ),
