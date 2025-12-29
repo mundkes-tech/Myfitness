@@ -1,8 +1,4 @@
-🏆 MyFitness — Smart Fitness & Wellness App
-
-![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
-![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=white)
-![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
+# 🏆 MyFitness — Smart Fitness & Wellness App
 
 A comprehensive mobile fitness application built with Flutter & Firebase to help users track workouts, plan diets, manage routines, and achieve their fitness goals — featuring voice-guided exercises, personalized plans, progress tracking, and real-time data sync.
 
@@ -12,188 +8,147 @@ A comprehensive mobile fitness application built with Flutter & Firebase to help
 
 ![alt text](image-1.png)
 
-
 </div>
-✨ Core Highlights
 
-✔️ Full workout module suite
-✔️ Personalized diet planning
-✔️ Daily routine manager
-✔️ Built-in workout timer
-✔️ Voice guidance + haptic feedback
-✔️ Firebase-powered authentication & storage
-✔️ Clean & interactive UI with animations
+## ✨ Core Highlights
 
-🏋️ Workout Modules
+- ✅ Full workout module suite
+- ✅ Personalized diet planning
+- ✅ Daily routine manager
+- ✅ Built-in workout timer
+- ✅ Voice guidance + haptic feedback
+- ✅ Firebase-powered authentication & storage
+- ✅ Clean & interactive UI with animations
+
+## 🏋️ Workout Modules
 
 Includes structured training programs for:
 
-Chest
+- Chest
+- Back
+- Shoulders
+- Abs / Core
+- Legs
+- Biceps
+- Triceps
+- Forearms
 
-Back
-
-Shoulders
-
-Abs / Core
-
-Legs
-
-Biceps
-
-Triceps
-
-Forearms
-
-🧘‍♂️ Mind Relaxation & Breathing exercises
+### 🧘‍♂️ Mind Relaxation & Breathing Exercises
 
 Each workout includes:
 
-Guided reps & rest intervals
+- Guided reps & rest intervals
+- Visual progress indicators
+- Voice instructions
+- Motivation feedback animations 🎉
 
-Visual progress indicators
-
-Voice instructions
-
-Motivation feedback animations 🎉
-
-🍎 Diet Planner
+## 🍎 Diet Planner
 
 Personalized diet planning based on:
 
-Age, height, weight
+- Age, height, weight
+- Gender
+- Fitness goal
+- Activity level
 
-Gender
+**Features:**
 
-Fitness goal
+- Customizable meal plans
+- Smart calorie recommendations
+- Editable inputs & preferences
 
-Activity level
+## 📅 Daily Routine Manager
 
-Features:
-
-Customizable meal plans
-
-Smart calorie recommendations
-
-Editable inputs & preferences
-
-📅 Daily Routine Manager
-
-Create and track daily habits
-
-Routine reminders
-
-Progress visualization
-
-Activity logs
+- Create and track daily habits
+- Routine reminders
+- Progress visualization
+- Activity logs
 
 Helps users stay consistent 💪
 
-⏱ Workout Timer & Feedback
+## ⏱ Workout Timer & Feedback
 
-Adjustable workout intervals
-
-Voice prompts (TTS)
-
-Vibration alerts
-
-Confetti celebration animations 🎊
+- Adjustable workout intervals
+- Voice prompts (TTS)
+- Vibration alerts
+- Confetti celebration animations 🎊
 
 Keeps workouts engaging & gamified.
 
-👤 User & Profile Management
+## 👤 User & Profile Management
 
-Firebase authentication (secure login)
+- Firebase authentication (secure login)
+- User profiles & preferences
+- Shared Preferences for local state
+- Cloud-synced progress storage
 
-User profiles & preferences
+## 🛠 Tech Stack
 
-Shared Preferences for local state
+- **Framework:** Flutter
+- **Language:** Dart
+- **Backend:** Firebase
 
-Cloud-synced progress storage
+### Modules Used:
+- Firestore
+- Realtime Database
+- Authentication
 
-🛠 Tech Stack
+### State & Utilities:
+- Shared Preferences
+- Custom Widgets
+- Utility helpers
 
-Framework — Flutter
-Language — Dart
-Backend — Firebase
+### Additional Libraries:
+- `flutter_tts` — voice guidance
+- `vibration` — haptic feedback
+- `confetti` — celebration effects
+- `percent_indicator` — progress bars
 
-Modules Used:
+## 🚀 Installation & Setup
 
-Firestore
+### ✅ Prerequisites
+- Flutter SDK (>= 3.3.4)
+- Dart SDK
+- Android Studio / VS Code
+- Firebase project
 
-Realtime Database
-
-Authentication
-
-State & Utilities:
-
-Shared Preferences
-
-Custom Widgets
-
-Utility helpers
-
-Additional Libraries:
-
-flutter_tts — voice guidance
-
-vibration — haptic feedback
-
-confetti — celebration effects
-
-percent_indicator — progress bars
-
-🚀 Installation & Setup
-✔️ Prerequisites
-
-Flutter SDK (>= 3.3.4)
-
-Dart SDK
-
-Android Studio / VS Code
-
-Firebase project
-
-🔧 Clone Repository
+### 🔧 Clone Repository
+```bash
 git clone https://github.com/your-username/myfitness.git
 cd myfitness
+```
 
-📦 Install Dependencies
+### 📦 Install Dependencies
+```bash
 flutter pub get
+```
 
-🔗 Firebase Configuration
+### 🔗 Firebase Configuration
+- Create project in Firebase Console
+- Enable:
+  - Firestore
+  - Realtime Database
+- Download `google-services.json`
+- Place in: `android/app/`
+- Update Firebase config in: `lib/firebase_options.dart`
 
-Create project in Firebase Console
-
-Enable:
-
-Firestore
-
-Realtime Database
-
-Download google-services.json
-
-Place in:
-
-android/app/
-
-
-Update Firebase config in:
-
-lib/firebase_options.dart
-
-▶️ Run the App
+### ▶️ Run the App
+```bash
 flutter run
+```
 
-📱 App Workflow
+## 📱 App Workflow
 
-1️⃣ Launch → Splash Screen
-2️⃣ Register / Login
-3️⃣ Select Workout or Diet Module
-4️⃣ Create Custom Plans
-5️⃣ Track Daily Routine
-6️⃣ Train using Voice-Guided Workouts
+1. **Launch** → Splash Screen
+2. **Register / Login**
+3. **Select Workout or Diet Module**
+4. **Create Custom Plans**
+5. **Track Daily Routine**
+6. **Train using Voice-Guided Workouts**
 
-📂 Project Structure
+## 📂 Project Structure
+
+```
 lib/
 ├── main.dart
 ├── firebase_options.dart
@@ -208,31 +163,26 @@ lib/
 ├── addplanScreen.dart
 ├── [Workout Modules].dart
 └── Common.dart
+```
 
-🤝 Contributing
+## 🤝 Contributing
 
 Contributions are welcome!
 
-Fork repo
+- Fork repo
+- Create branch
+- Commit changes
+- Push branch
+- Open PR
 
-Create branch
-
-Commit changes
-
-Push branch
-
-Open PR
-
-📄 License
+## 📄 License
 
 MIT License — see LICENSE for details.
 
-🙌 Acknowledgments
+## 🙌 Acknowledgments
 
-Flutter team
+- Flutter team
+- Firebase community
+- Open-source contributors
 
-Firebase community
-
-Open-source contributors
-
-💪 Stay fit, stay consistent — build healthy habits!
+💪 **Stay fit, stay consistent — build healthy habits!**
