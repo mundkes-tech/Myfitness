@@ -137,6 +137,44 @@ flutter pub get
 flutter run
 ```
 
+## 📦 Phase 1: APK/AAB Size Reduction (No Feature/UI Change)
+
+Use release artifacts for distribution. Local `build/` folders can become very large because they keep debug + multiple APK outputs.
+
+### 1) Clean previous outputs
+```bash
+flutter clean
+flutter pub get
+```
+
+### 2) Preferred Play Store build (recommended)
+```bash
+flutter build appbundle --release
+```
+Output:
+- `build/app/outputs/bundle/release/app-release.aab`
+
+### 3) Direct APK sharing (smaller per device)
+```bash
+flutter build apk --release --split-per-abi
+```
+Outputs:
+- `build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk`
+- `build/app/outputs/flutter-apk/app-arm64-v8a-release.apk`
+- `build/app/outputs/flutter-apk/app-x86_64-release.apk`
+
+### 4) Universal APK (larger)
+```bash
+flutter build apk --release
+```
+
+### 5) Optional: obfuscated release
+```bash
+flutter build appbundle --release --obfuscate --split-debug-info=build/symbols
+```
+
+This phase only optimizes packaging/build output size and does not change app features or UI behavior.
+
 ## 📱 App Workflow
 
 1. **Launch** → Splash Screen

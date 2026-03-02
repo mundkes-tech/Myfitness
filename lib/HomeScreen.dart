@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:another_carousel_pro/another_carousel_pro.dart';
 import 'package:myfitness/DietPlanner.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:myfitness/services/session_service.dart';
 import 'Chest_workouts.dart';
 import 'Back_workouts.dart';
 import 'Shoulder_workouts.dart';
@@ -30,49 +29,44 @@ class _HomeScreenState extends State<HomeScreen> {
   String email = "";
   int _selectedIndex = 0;
 
-  final List<Widget> _screens = [
-    HomeContent(),
-    dailyroutine(),
-    myplanScreen(),
-    TimerScreen()
-  ];
-
   final List<Color> _tabColors = [
-    Colors.blueGrey,   // Home
-    Colors.teal,  // Routine
-    Colors.purple,    // My Plans
+    Colors.blueGrey, // Home
+    Colors.teal, // Routine
+    Colors.purple, // My Plans
     Colors.cyan, // Timer
     Colors.transparent, // More
   ];
 
   Future<void> getInfo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? savedEmail = await SessionService.getUserEmail();
+    final String? savedName = await SessionService.getUserName();
     setState(() {
-      email = prefs.getString("email") ?? "No data";
-      name = prefs.getString("Name") ?? "No data";
+      email = savedEmail ?? "No data";
+      name = savedName ?? "No data";
     });
   }
 
   Future<bool> _onWillPop() async {
     return await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text("Exit App"),
-        content: Text("Are you sure you want to exit?"),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false), // Stay in app
-            child: Text("No"),
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Exit App"),
+            content: Text("Are you sure you want to exit?"),
+            actions: [
+              TextButton(
+                onPressed: () =>
+                    Navigator.of(context).pop(false), // Stay in app
+                child: Text("No"),
+              ),
+              TextButton(
+                onPressed: () {
+                  SystemNavigator.pop(); // Exit the app
+                },
+                child: Text("Yes"),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () {
-              SystemNavigator.pop(); // Exit the app
-            },
-            child: Text("Yes"),
-          ),
-        ],
-      ),
-    ) ??
+        ) ??
         false;
   }
 
@@ -81,7 +75,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     getInfo();
   }
-
 
   void _onItemTapped(int index) async {
     if (index == 4) {
@@ -94,8 +87,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-
-
   Future<void> _showMoreMenu() async {
     await showModalBottomSheet(
       context: context,
@@ -105,8 +96,10 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _buildMoreItem(Icons.add_box_outlined, "Add Plan", addplanScreen()),
-              _buildMoreItem(Icons.food_bank_outlined, "Diet Planner", DietPlannerScreen()),
+              _buildMoreItem(
+                  Icons.add_box_outlined, "Add Plan", addplanScreen()),
+              _buildMoreItem(Icons.food_bank_outlined, "Diet Planner",
+                  DietPlannerScreen()),
               _buildMoreItem(Icons.logout, "Logout", null, logout),
             ],
           ),
@@ -115,14 +108,16 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-
-  Widget _buildMoreItem(IconData icon, String title, Widget? screen, [VoidCallback? action]) {
+  Widget _buildMoreItem(IconData icon, String title, Widget? screen,
+      [VoidCallback? action]) {
     return ListTile(
       leading: Icon(icon, color: Colors.black),
       title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
       onTap: () {
         Navigator.pop(context);
-        if (screen != null) Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
+        if (screen != null)
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => screen));
         if (action != null) action();
       },
     );
@@ -131,11 +126,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void logout() async {
     bool confirmLogout = await _onWillLogout();
     if (confirmLogout) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.clear();
+      await SessionService.clearSession();
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => LoginScreen()),
-            (route) => false,
+        (route) => false,
       );
     }
   }
@@ -159,17 +153,28 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<bool> _onWillLogout() async {
     return await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        title: Text("Logout", style: TextStyle(fontWeight: FontWeight.bold)),
-        content: Text("Are you sure you want to log out?"),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: Text("No", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold))),
-          TextButton(onPressed: () => Navigator.pop(context, true), child: Text("Yes", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold))),
-        ],
-      ),
-    ) ?? false;
+          context: context,
+          builder: (context) => AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            title:
+                Text("Logout", style: TextStyle(fontWeight: FontWeight.bold)),
+            content: Text("Are you sure you want to log out?"),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: Text("No",
+                      style: TextStyle(
+                          color: Colors.green, fontWeight: FontWeight.bold))),
+              TextButton(
+                  onPressed: () => Navigator.pop(context, true),
+                  child: Text("Yes",
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold))),
+            ],
+          ),
+        ) ??
+        false;
   }
 
   Widget build(BuildContext context) {
@@ -185,8 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: _tabColors[_selectedIndex],
           centerTitle: true,
         ),
-        body: _screens[_selectedIndex],
-
+        body: _buildCurrentScreen(),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -198,7 +202,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
               child: GNav(
                 haptic: false,
                 backgroundColor: Colors.white,
@@ -216,15 +221,66 @@ class _HomeScreenState extends State<HomeScreen> {
                   GButton(icon: Icons.timer, text: 'Timer'),
                   GButton(icon: Icons.more_horiz, text: 'More'),
                 ],
-              )
-          ),
+              )),
         ),
       ),
     );
   }
+
+  Widget _buildCurrentScreen() {
+    switch (_selectedIndex) {
+      case 0:
+        return HomeContent(
+          userName: name,
+          onOpenRoutine: () => _onItemTapped(1),
+          onOpenMyPlans: () => _onItemTapped(2),
+          onOpenTimer: () => _onItemTapped(3),
+          onOpenAddPlan: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => addplanScreen()),
+            );
+          },
+        );
+      case 1:
+        return dailyroutine();
+      case 2:
+        return myplanScreen();
+      case 3:
+        return TimerScreen();
+      default:
+        return HomeContent(
+          userName: name,
+          onOpenRoutine: () => _onItemTapped(1),
+          onOpenMyPlans: () => _onItemTapped(2),
+          onOpenTimer: () => _onItemTapped(3),
+          onOpenAddPlan: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => addplanScreen()),
+            );
+          },
+        );
+    }
+  }
 }
 
 class HomeContent extends StatelessWidget {
+  final String userName;
+  final VoidCallback onOpenRoutine;
+  final VoidCallback onOpenMyPlans;
+  final VoidCallback onOpenTimer;
+  final VoidCallback onOpenAddPlan;
+
+  HomeContent({
+    super.key,
+    required this.userName,
+    required this.onOpenRoutine,
+    required this.onOpenMyPlans,
+    required this.onOpenTimer,
+    required this.onOpenAddPlan,
+  });
+
   final List<Map<String, String>> workoutCategories = [
     {"title": "Chest", "image": "asset/gym.png"},
     {"title": "Back", "image": "asset/back.png"},
@@ -268,53 +324,113 @@ class HomeContent extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("asset/background_home.jpg"), // Set your background image
-          fit: BoxFit.cover, // Ensures the image covers the entire background
+          image: AssetImage("asset/background_home.jpg"),
+          fit: BoxFit.cover,
         ),
       ),
       child: SingleChildScrollView(
+        padding: EdgeInsets.only(bottom: 20),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 225,
-              width: double.infinity,
-              child: Container( // Wrap carousel with a separate background
-                decoration: BoxDecoration(
-                  color: Colors.black, // ✅ Prevent background image from affecting it
-                ),
-                child: AnotherCarousel(
-                  images: [
-                    AssetImage("asset/1.jpg"),
-                    AssetImage("asset/2.jpg"),
-                    AssetImage("asset/3.jpg"),
-                    AssetImage("asset/4.jpg")
-                  ],
-                  dotSize: 4,
-                  indicatorBgPadding: 2,
-                  autoplay: true,
-                  animationCurve: Curves.fastOutSlowIn,
-                  animationDuration: Duration(seconds: 2),
-                ),
-              ),
-            ),
-
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 18).copyWith(top: 8),
+              padding: const EdgeInsets.all(16),
               child: Container(
-                child: Text(
-                  'Workout Categories',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                  textAlign: TextAlign.center,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.55),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      userName.isNotEmpty && userName != "No data"
+                          ? "Welcome, $userName"
+                          : "Welcome to MyFitness",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      "Start your day with a quick workout and stay consistent.",
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 14,
+                      ),
+                    ),
+                    SizedBox(height: 14),
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: [
+                        _quickActionButton(
+                          icon: Icons.sports_gymnastics,
+                          label: "Routine",
+                          onTap: onOpenRoutine,
+                        ),
+                        _quickActionButton(
+                          icon: Icons.list_alt,
+                          label: "My Plans",
+                          onTap: onOpenMyPlans,
+                        ),
+                        _quickActionButton(
+                          icon: Icons.timer,
+                          label: "Timer",
+                          onTap: onOpenTimer,
+                        ),
+                        _quickActionButton(
+                          icon: Icons.add_circle_outline,
+                          label: "Add Plan",
+                          onTap: onOpenAddPlan,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
-
+            SizedBox(
+              height: 210,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Container(
+                    color: Colors.black,
+                    child: AnotherCarousel(
+                      images: [
+                        AssetImage("asset/1.jpg"),
+                        AssetImage("asset/2.jpg"),
+                        AssetImage("asset/3.jpg"),
+                        AssetImage("asset/4.jpg")
+                      ],
+                      dotSize: 4,
+                      indicatorBgPadding: 2,
+                      autoplay: true,
+                      animationCurve: Curves.fastOutSlowIn,
+                      animationDuration: Duration(seconds: 2),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(18, 14, 18, 4),
+              child: Text(
+                'Workout Categories',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
             GridView.builder(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -328,7 +444,8 @@ class HomeContent extends StatelessWidget {
                 return buildWorkoutCard(
                   category: workoutCategories[index],
                   onTap: () {
-                    navigateToWorkout(context, workoutCategories[index]["title"]!);
+                    navigateToWorkout(
+                        context, workoutCategories[index]["title"]!);
                   },
                 );
               },
@@ -339,21 +456,63 @@ class HomeContent extends StatelessWidget {
     );
   }
 
-  Widget buildWorkoutCard({required Map<String, String> category, required VoidCallback onTap}) {
+  Widget buildWorkoutCard(
+      {required Map<String, String> category, required VoidCallback onTap}) {
     return GestureDetector(
       onTap: onTap,
-      child: Card(
-        elevation: 7,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(14),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.18),
+              blurRadius: 6,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(category["image"]!, height: 85),
             SizedBox(height: 10),
-            Text(category["title"]!, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            Text(category["title"]!,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _quickActionButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 18, color: Colors.black87),
+            SizedBox(width: 6),
+            Text(
+              label,
+              style: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 }
-

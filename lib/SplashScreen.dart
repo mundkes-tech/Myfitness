@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myfitness/LoginScreen.dart';
 import 'package:myfitness/HomeScreen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:myfitness/services/session_service.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -11,9 +11,8 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   checkIsLogin() async {
     Future.delayed(Duration(seconds: 7), () async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      var email = prefs.getString('email');
-      if (email != null) {
+      final bool loggedIn = await SessionService.isLoggedIn();
+      if (loggedIn) {
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => HomeScreen()));
       } else {
@@ -57,4 +56,3 @@ class _SplashScreenState extends State<SplashScreen> {
     ));
   }
 }
-
