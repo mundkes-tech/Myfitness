@@ -10,6 +10,10 @@ A comprehensive mobile fitness application built with Flutter & Firebase to help
 
 </div>
 
+## 🎬 Demo Video
+
+- Instagram Reel: https://www.instagram.com/reels/DVZKVDnDDY7/
+
 ## ✨ Core Highlights
 
 - ✅ Full workout module suite
@@ -136,6 +140,12 @@ flutter pub get
 ```bash
 flutter run
 ```
+
+## 📚 API Documentation
+
+This project uses a service-layer API inside Flutter and Firebase Firestore as the data API.
+
+- Full API docs: `docs/API_DOCUMENTATION.md`
 
 ## 📦 Phase 1: APK/AAB Size Reduction (No Feature/UI Change)
 
